@@ -16,5 +16,92 @@ namespace FirstApp
         {
             InitializeComponent();
         }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            primeTextLabel.Text = "Бажаємо\n непохитного...";
+            loginTextBox.Text = "Enter your login:";
+            passwordTextBox.Text = " and password:";
+        }
+
+        private void logInbutton_Click(object sender, EventArgs e)
+        {
+            /*Here you can add your authentication logic, for example,
+             check the login and password against a database.*/
+            MenuForm form2 = new MenuForm(loginTextBox.Text);
+
+            form2.Show();
+            this.Hide();
+        }
+
+        private void RegButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #region simple events for text boxes
+        private void loginTextBox_MouseEnter(object sender, EventArgs e)
+        {
+            if (loginTextBox.Text == "Enter your login:")
+            {
+                loginTextBox.Text = "";
+            }
+        }
+
+        private void loginTextBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (loginTextBox.Text == "")
+            {
+                loginTextBox.Text = "Enter your login:";
+            }
+        }
+
+        private void passwordTextBox_MouseEnter(object sender, EventArgs e)
+        {
+            if (passwordTextBox.Text == " and password:")
+            {
+                passwordTextBox.Text = "";
+            }
+        }
+
+        private void passwordTextBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (passwordTextBox.Text == "")
+            {
+                passwordTextBox.Text = " and password:";
+            }
+        }
+
+        private void primeTextLabel_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This is a simple sample of a Windows Forms application.", "Prime Text", MessageBoxButtons.OK);
+        }
+        #endregion
+
+        private void loginTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (loginTextBox.TextLength > 20)
+            {
+                loginTextBox.Text = loginTextBox.Text.Substring(0, 20);
+                loginTextLabel.Text = "Login must be\nmax 20 chars.";
+            }
+            else
+            {
+                loginTextLabel.Text = "Login";
+            }
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (passwordTextBox.TextLength > 20)
+            {
+                passwordTextBox.Text = passwordTextBox.Text.Substring(0, 20);
+                passwordTextLabel.Text = "Password must be\nmax 20 chars.";
+            }
+            else
+            {
+                passwordTextLabel.Text = "Password";
+            }
+        }
     }
 }
