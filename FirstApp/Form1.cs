@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,12 +27,38 @@ namespace FirstApp
 
         private void logInbutton_Click(object sender, EventArgs e)
         {
-            /*Here you can add your authentication logic, for example,
-             check the login and password against a database.*/
-            MenuForm form2 = new MenuForm(loginTextBox.Text);
+            string logName = loginTextBox.Text;
+            string logPassword = passwordTextBox.Text;
 
-            form2.Show();
-            this.Hide();
+            DataBase db_obj = new DataBase();
+            db_obj.openConnection();
+
+            DataTable db_table = new DataTable();
+            MySqlDataAdapter db_adapter = new MySqlDataAdapter();
+
+            MySqlCommand command = new MySqlCommand("SELECT * FROM `registered_list` WHERE `login` = @pif AND `password` = @puf", db_obj.getConnection());
+            command.Parameters.AddWithValue("@pif", logName);
+            command.Parameters.AddWithValue("@puf", logPassword);
+            
+            db_adapter.SelectCommand = command;
+            db_adapter.Fill(db_table);
+
+            if (db_table.Rows.Count > 0)
+            {
+                db_obj.closeConnection();
+                MessageBox.Show("Wellcome");
+                MenuForm form2 = new MenuForm(loginTextBox.Text);
+
+                form2.Show();
+                this.Hide();
+            }
+            else
+            {
+                db_obj.closeConnection();
+                MessageBox.Show("Invalid login or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
         }
 
         private void RegButton_Click(object sender, EventArgs e)
